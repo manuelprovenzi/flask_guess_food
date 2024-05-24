@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+    <title>Guess the food</title>
+    <script src="{{ url_for('static', filename= 'js/main.js') }}"></script>
+</head>
+<body>
+   <h1>Hai vinto</h1>
+    <img src="{{ url_for('static',filename=photo.path) }}" alt="Image"><br>
+    <div>il cibo è: {{photo.categoria}}</div>
+
+   <button id="start-game" onclick="start_button();">Ricomincia</button>
+</body>
+</html>
