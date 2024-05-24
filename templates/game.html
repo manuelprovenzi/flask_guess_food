@@ -8,5 +8,11 @@
 </head>
 <body>
    <h1>Ecco il gioco</h1>
+   
+   {% for image in images %}
+       <img src="{{ url_for( '',filename= image.path) }}" alt="Image">
+   {% endfor %}
+   
+   
 </body>
 </html>
