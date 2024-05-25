@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> <!-- Collegamento al file CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> <!-- Collegamento al file CSS -->
 </head>
 <body>
-    <form action="/login" method="POST">
+
+    <form class="form_accesso" action="/login" method="POST">
+        <h1>Login</h1><br><br>
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br><br>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required><br><br>
-        <input type="submit" value="Login">
+        <input type="submit" class="button_form" value="Login">
+        <button id="signin" class="button_form" onclick="location.href='/signin';">Sign In</button>
     </form>
     {% if not bool_login %}
         <p>Login errato</p>
     {% endif %}
-    <button id="signin" onclick="location.href='/signin';">Sign In</button>
 </body>
 </html>

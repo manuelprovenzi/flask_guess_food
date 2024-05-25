@@ -7,10 +7,10 @@
     <script src="{{ url_for('static', filename= 'js/main.js') }}"></script>
 </head>
 <body>
-   <h1>Hai vinto</h1>
+    <h1>Hai vinto</h1>
     <img src="{{ url_for('static',filename=photo.path) }}" alt="Image"><br>
-    <div>il cibo è: {{photo.categoria}}</div>
+    <div>il cibo è: {{photo.categoria}}</div><br>
 
-   <button id="start-game" onclick="start_button();">Ricomincia</button>
+   <button id="start-game" onclick="start_button();">Continua</button>
 </body>
 </html>

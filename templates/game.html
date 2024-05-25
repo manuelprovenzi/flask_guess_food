@@ -7,24 +7,21 @@
     <script src="{{ url_for('static', filename= 'js/main.js') }}"></script>
 </head>
 <body>
-   <h1>Ecco il gioco</h1>
+   <h1>Indovina il cibo</h1>
 
     
     <img src="{{ url_for('static',filename=photo.path) }}" alt="Image">
 
-    <div>
+    <div id="div_form">
         <form action="/check_vittoria" method="post">
         {% for cat in categorie%}
             <input type="radio" name="radio_categorie" id="radio_{{ cat }}" value="{{ cat }}">
             <label for="radio_{{ cat }}">{{cat}}</label>
         {% endfor %}
-        <input type="submit" value="Invia">
+            <input type="submit" value="Invia"><br>
         </form>
+        <button id="button_index" onclick="location.href='/';">Home</button>
     </div>
 
-</body>
-</html>
-    
-   
 </body>
 </html>

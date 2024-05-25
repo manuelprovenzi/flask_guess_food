@@ -1,12 +1,183 @@
-h1 {
-    border: 2px #eee solid;
-    color: brown;
-    text-align: center;
-    padding: 10px;
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
+
+form.form_accesso {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    text-align: left;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input[type="submit"],
+button.button_form {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: calc(100% - 20px);
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+input[type="submit"]:hover,
+button.button_form:hover {
+    background-color: #0056b3;
+}
+
+button.button_form {
+    background-color: #28a745;
+}
+
+button.button_form:hover {
+    background-color: #218838;
+}
+
+p {
+    color: red;
+    font-weight: bold;
+}
+
+@media (max-width: 400px) {
+    form {
+        width: 90%;
+    }
+}
+
+
+
+
 
 img {
-    width: 400px;
-    height: 400px;
+    display: block;
+    max-width: 700px;
+    height: 700px;
+    margin: 20px auto;
+    border-radius: 10px;
 }
 
+input[type="radio"] {
+    margin: 10px 0;
+}
+
+div {
+    font-size: 18px;
+    color: #333;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Stile per il pulsante Inizia il gioco */
+button#start-game {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    display: inline-block;
+    margin: 20px 10px;
+    transition: background-color 0.3s ease;
+}
+
+button#start-game:hover {
+    background-color: #0056b3;
+}
+
+/* Stile per il pulsante Classifica */
+button#get-classifica {
+    background-color: #6c757d; /* Colore diverso */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    display: inline-block;
+    margin: 20px 10px;
+    transition: background-color 0.3s ease;
+}
+
+button#get-classifica:hover {
+    background-color: #5a6268; /* Colore diverso */
+}
+
+/* Stile per il pulsante Logout */
+button#logout {
+    background-color: #ff5733; /* Colore arancione */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    display: inline-block;
+    margin: 20px 10px;
+    transition: background-color 0.3s ease;
+}
+
+button#logout:hover {
+    background-color: #cc4629; /* Colore arancione più scuro */
+}
+
+/* Stile per il pulsante Home */
+button#button_index {
+    background-color: #28a745; /* Colore verde */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    display: inline-block;
+    margin: 20px 10px;
+    transition: background-color 0.3s ease;
+}
+
+button#button_index:hover {
+    background-color: #218838; /* Colore verde più scuro */
+}
+
+
+div#div_form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
