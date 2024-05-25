@@ -1,3 +1,3 @@
 function start_button(){
-    window.location.href = "/game";
+    location.href = "/game";
 }
