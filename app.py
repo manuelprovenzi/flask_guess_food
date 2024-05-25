@@ -17,7 +17,7 @@ class PageManager:
             if 'username' in request.cookies:
                 return render_template('index.html')
             else:
-                return render_template('login.html')
+                return render_template('login.html',bool_login=True)
 
         @self.app.route('/game')
         def game():
