@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style_classifica.css') }}">
+        <title>Classifica</title>
+        <script src="{{ url_for('static', filename= 'js/main.js') }}"></script>
+    </head>
+<body>
+    <h1>Classifica Utenti</h1>
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Username</th>
+            <th>Punteggio</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.punteggio }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <button id="button_index" onclick="location.href='/';">Home</button>
+</body>
+</html>

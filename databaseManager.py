@@ -1,4 +1,5 @@
 import sqlite3
+from user import User
 
 class DatabaseManager:
     def __init__(self,app):
@@ -48,3 +49,22 @@ class DatabaseManager:
         if len(rows) == 0:
             return None
         return rows[0][0]
+    
+    def get_all_users(self):
+        query = f'''
+        SELECT * FROM users
+        '''
+        self.cursor.execute(query)
+        rows = self.cursor.fetchall()
+        users=[]
+        for row in rows:
+            user = User(row[0], row[1], row[2], row[3], row[4], row[5])
+            users.append(user)
+        return users
+    
+    def update_user_score(self, id, punteggio):
+        query = f'''
+        UPDATE users SET punteggio = punteggio+'{punteggio}' WHERE id = {id}
+        '''
+        self.cursor.execute(query)
+        self.conn.commit()
