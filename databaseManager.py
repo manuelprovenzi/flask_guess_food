@@ -18,7 +18,8 @@ class DatabaseManager:
             username VARCHAR(50) NOT NULL UNIQUE,
             password VARCHAR(50) NOT NULL,
             email VARCHAR(50),
-            punteggio INTEGER DEFAULT 0
+            punteggio INTEGER DEFAULT 0,
+            vite INT DEFAULT 3
         )
         ''')
 
@@ -58,7 +59,7 @@ class DatabaseManager:
         rows = self.cursor.fetchall()
         users=[]
         for row in rows:
-            user = User(row[0], row[1], row[2], row[3], row[4], row[5])
+            user = User(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
             users.append(user)
         return users
     
@@ -68,3 +69,37 @@ class DatabaseManager:
         '''
         self.cursor.execute(query)
         self.conn.commit()
+        
+    def diminuisci_user_life(self, id, vite):
+        vita_attuale = self.getVite(id)
+        if(vita_attuale <= 1):
+            return True
+        query = f'''
+        UPDATE users SET vite = vite+'{vite}' WHERE id = {id}
+        '''
+        self.cursor.execute(query)
+        self.conn.commit()
+        return False
+        
+    def update_user_life(self, id, vite):
+        query = f'''
+        UPDATE users SET vite = '{vite}' WHERE id = {id}
+        '''
+        self.cursor.execute(query)
+        self.conn.commit()
+    
+    def getVite(self, id):
+        query = f'SELECT vite FROM users WHERE id = {id}'
+        self.cursor.execute(query)
+        rows = self.cursor.fetchall()
+        vite = rows[0][0]
+        return vite
+    
+    def get_user(self, id):
+        query = f'''
+        SELECT * FROM users WHERE id = {id}
+        '''
+        self.cursor.execute(query)
+        rows = self.cursor.fetchall()
+        user = User(rows[0][0], rows[0][1], rows[0][2], rows[0][3], rows[0][4], rows[0][5], rows[0][6])
+        return user

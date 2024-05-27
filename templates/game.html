@@ -7,16 +7,21 @@
     <script src="{{ url_for('static', filename= 'js/main.js') }}"></script>
 </head>
 <body>
-   <h1>Indovina il cibo</h1>
-
+    <!-- Barra di navigazione -->
+    <div class="navbar">
+        <div class="navbar-item">Punteggio: {{ user.punteggio }}</div>
+        <div class="navbar-item">Vite: {{ user.vite }}</div>
+    </div>
+    
+    <h1>Indovina il cibo</h1>
     
     <img src="{{ url_for('static',filename=photo.path) }}" alt="Image">
 
     <div id="div_form">
         <form action="/check_vittoria" method="post">
-        {% for cat in categorie%}
+        {% for cat in categorie %}
             <input type="radio" name="radio_categorie" id="radio_{{ cat }}" value="{{ cat }}">
-            <label for="radio_{{ cat }}">{{cat}}</label>
+            <label for="radio_{{ cat }}">{{ cat }}</label>
         {% endfor %}
             <input type="submit" value="Invia"><br>
         </form>

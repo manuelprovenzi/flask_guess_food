@@ -1,3 +1,4 @@
+import json
 from flask import Flask, render_template, request, make_response
 from food_api import FoodAPI
 from image import Image
@@ -21,7 +22,9 @@ class PageManager:
 
         @self.app.route('/game')
         def game():
-            
+            if 'perso' in request.cookies:
+                return render_template('index.html', perso=True)
+
             
             food = FoodAPI()
             img_url, category = food.get_random_food()
@@ -33,7 +36,8 @@ class PageManager:
             categories = self.getCategories(actual_image,images_all)
             
             self.cibo_vincente = actual_image
-            return render_template('game.html', photo=actual_image, categorie=categories)
+            user = self.db_manager.get_user(request.cookies.get('id'))
+            return render_template('game.html', photo=actual_image, categorie=categories, user = user)
 
 
         @self.app.route('/check_vittoria', methods=['GET', 'POST'])
@@ -45,6 +49,11 @@ class PageManager:
                     return render_template('vittoria.html', photo=self.cibo_vincente)
                 else:
                     self.db_manager.update_user_score(request.cookies.get('id'),-25)
+                    perso = self.db_manager.diminuisci_user_life(request.cookies.get('id'),-1)
+                    if perso:
+                        response = make_response(render_template('index.html'))
+                        response.set_cookie('perso', str("1"))  # Imposta il cookie 'id' con il valore dell'id
+                        return response
                     return render_template('sconfitta.html',photo=self.cibo_vincente)
             
         
@@ -82,7 +91,7 @@ class PageManager:
                 psw = hashlib.md5(password.encode()).hexdigest()
                 id = self.db_manager.register_user(name, username, psw, email)
                 if id is not None:
-                    return render_template('login.html')
+                    return render_template('login.html',bool_login=True)
                 else:
                     signin = False
             return render_template('signin.html', bool_signin = signin)
@@ -98,6 +107,26 @@ class PageManager:
             response = make_response(render_template('login.html',bool_login=True))
             response.set_cookie('id', '', expires=0)
             response.set_cookie('username', '', expires=0)
+            response.set_cookie('perso', '', expires=0)
+            return response
+        
+        @app.route('/window_closed', methods=['POST'])
+        def window_closed():
+            if request.content_type == 'text/plain':
+                data = request.get_data(as_text=True)
+                try:
+                    json_data = json.loads(data)
+                except ValueError:
+                    return 'Invalid JSON', 400
+            else:
+                return 'Unsupported Media Type', 415
+            
+            # Gestisci i dati come JSON
+            print('Finestra chiusa, dati:', json_data)
+            response = make_response(render_template('index.html'))
+            response.set_cookie('id', '', expires=0)
+            response.set_cookie('username', '', expires=0)
+            response.set_cookie('perso', '', expires=0)
             return response
 
     def getAllImages(self):
