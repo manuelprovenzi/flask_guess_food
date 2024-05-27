@@ -13,12 +13,14 @@
             <th>Nome</th>
             <th>Username</th>
             <th>Punteggio</th>
+            <th>Vite</th>
         </tr>
         {% for user in users %}
         <tr>
             <td>{{ user.name }}</td>
             <td>{{ user.username }}</td>
             <td>{{ user.punteggio }}</td>
+            <td>{{ user.vite }}</td>
         </tr>
         {% endfor %}
     </table>

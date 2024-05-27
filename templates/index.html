@@ -11,7 +11,9 @@
    <button id="start-game" onclick="start_button();">Inizia il gioco</button>
    <button id="get-classifica" onclick="getClassifica();">Classifica</button>
    <button id="logout" onclick="logout();">Logout</button>
-
+    {% if perso %}
+        <script>alert("hai terminato le vite!")</script>
+    {% endif %}
 
 </body>
 </html>
