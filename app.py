@@ -5,6 +5,7 @@ from image import Image
 import os
 import random
 import hashlib
+from databaseManager import DatabaseManager
 
 class PageManager:
 
@@ -22,7 +23,7 @@ class PageManager:
 
         @self.app.route('/game')
         def game():
-            if 'perso' in request.cookies:
+            if 'perso' in request.cookies and request.cookies.get('perso') == "1":
                 return render_template('index.html', perso=True)
 
             
@@ -51,7 +52,7 @@ class PageManager:
                     self.db_manager.update_user_score(request.cookies.get('id'),-25)
                     perso = self.db_manager.diminuisci_user_life(request.cookies.get('id'),-1)
                     if perso:
-                        response = make_response(render_template('index.html'))
+                        response = make_response(render_template('index.html'), perso=True)
                         response.set_cookie('perso', str("1"))  # Imposta il cookie 'id' con il valore dell'id
                         return response
                     return render_template('sconfitta.html',photo=self.cibo_vincente)
@@ -71,7 +72,13 @@ class PageManager:
                 if id is not None:
                     response = make_response(render_template('index.html'))
                     response.set_cookie('id', str(id))  # Imposta il cookie 'id' con il valore dell'id
-                    response.set_cookie('username', str(username))  # Imposta il cookie 'id' con il valore dell'id
+                    response.set_cookie('username', str(username))
+                    vite= self.db_manager.getVite(id)
+                    if vite == 0:
+                        response.set_cookie('perso', str("1"))
+                    else:
+                        response.set_cookie('perso', str("0"))
+                    
                     
                     return response
                 else:
