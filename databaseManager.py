@@ -19,7 +19,8 @@ class DatabaseManager:
             password VARCHAR(50) NOT NULL,
             email VARCHAR(50),
             punteggio INTEGER DEFAULT 0,
-            vite INT DEFAULT 3
+            vite INT DEFAULT 3,
+            timer INT DEFAULT -1
         )
         ''')
 
@@ -59,7 +60,7 @@ class DatabaseManager:
         rows = self.cursor.fetchall()
         users=[]
         for row in rows:
-            user = User(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
+            user = User(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
             users.append(user)
         return users
     
@@ -80,6 +81,13 @@ class DatabaseManager:
         self.cursor.execute(query)
         self.conn.commit()
         return False
+    
+    def set_user_life(self, id, vite):
+        query = f'''
+        UPDATE users SET vite = '{vite}' WHERE id = {id}
+        '''
+        self.cursor.execute(query)
+        self.conn.commit()
         
     def update_user_life(self, id, vite):
         query = f'''
@@ -101,5 +109,29 @@ class DatabaseManager:
         '''
         self.cursor.execute(query)
         rows = self.cursor.fetchall()
-        user = User(rows[0][0], rows[0][1], rows[0][2], rows[0][3], rows[0][4], rows[0][5], rows[0][6])
+        user = User(rows[0][0], rows[0][1], rows[0][2], rows[0][3], rows[0][4], rows[0][5], rows[0][6],rows[0][7])
         return user
+    
+    def update_user_timer(self, id, timer):
+        query = f'''
+        UPDATE users SET timer = '{timer}' WHERE id = {id}
+        '''
+        self.cursor.execute(query)
+        self.conn.commit()
+        
+    def get_user_timer(self, id):
+        query = f'''
+        SELECT timer FROM users WHERE id = {id}
+        '''
+        self.cursor.execute(query)
+        rows = self.cursor.fetchall()
+        timer = rows[0][0]
+        return timer
+    
+    def save_user(self, user):
+        query = f'''
+        INSERT INTO users (id, name, username, password, email, punteggio, vite, timer)
+        VALUES ('{user.id}', '{user.name}', '{user.username}', '{user.password}', '{user.email}', '{user.punteggio}', '{user.vite}', '{user.timer}')
+        '''
+        self.cursor.execute(query)
+        self.conn.commit()

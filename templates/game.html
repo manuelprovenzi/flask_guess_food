@@ -6,28 +6,42 @@
     <title>Guess the food</title>
     <script src="{{ url_for('static', filename= 'js/main.js') }}"></script>
     <script>
-        function startTimer(duration, display) {
-            var timer = duration, minutes, seconds;
-            setInterval(function () {
-                minutes = parseInt(timer / 60, 10);
-                seconds = parseInt(timer % 60, 10);
+        document.addEventListener("DOMContentLoaded", function() {
+            function updateTime() {
+                var timestamp_user = {{ user.timer }};
+                console.log(timestamp_user);
+                var secondi_totali = {{secondi_totali}};
+                var secondi_timer=0;
+                var minuti_timer=0;
+                if(secondi_totali%60==0){
+                    secondi_timer=60;
+                    minuti_timer=secondi_totali/60-1;
+                }
+                else{
+                    secondi_timer = secondi_totali%60;
+                    minuti_timer=secondi_totali/60;
+                }
 
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                display.textContent = minutes + ":" + seconds;
-
-                if (--timer < 0) {
+                var now = new Date();
+                var date = new Date(timestamp_user * 1000);
+                var timeDifference = now - date;
+                var secondsPassed_totali = Math.floor(timeDifference / 1000);
+                if(secondsPassed_totali>=secondi_totali){
+                    timerTerminato();
                     return;
                 }
-            }, 1000);
-        }
+                var seconds = secondi_timer-(Math.floor(timeDifference / 1000)%60); // Reset seconds to zero when they reach 60
 
-        window.onload = function () {
-            var fiveMinutes = 60 * 5,
-                display = document.querySelector('#time');
-            startTimer(fiveMinutes, display);
-        };
+                var minutes = minuti_timer- Math.floor(secondsPassed_totali / 60);
+                var formattedTime = (minutes)%60 + ':' + (seconds)%60;
+
+                document.getElementById("timer").innerHTML = formattedTime;
+            }
+        
+            setInterval(updateTime, 1000);
+        });
+        
+       
     </script>
 </head>
 <body>
@@ -35,8 +49,7 @@
     <div class="navbar">
         <div class="navbar-item">Punteggio: {{ user.punteggio }}</div>
         <div class="navbar-item">Vite: {{ user.vite }}</div>
-        <!--<div class="navbar-item">Timer: <span id="time">05:00</span></div>-->
-        <div class="navbar-item">Timer: <span id="time">05:00</span></div>
+       <div class="navbar-item">Timer: <span id="timer"></span></div>
     </div>
     
     <h1>Indovina il cibo</h1>

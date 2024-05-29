@@ -6,6 +6,8 @@ import os
 import random
 import hashlib
 from databaseManager import DatabaseManager
+import time
+
 
 class PageManager:
 
@@ -13,6 +15,7 @@ class PageManager:
         self.app = app
         self.db_manager = db_manager
         self.cibo_vincente = None
+        self.secondi_totali_timer = 300
 
         @self.app.route('/')
         def index():
@@ -21,10 +24,22 @@ class PageManager:
             else:
                 return render_template('login.html',bool_login=True)
 
-        @self.app.route('/game')
+        @self.app.route('/game', methods=['GET', 'POST'])
         def game():
-            if 'perso' in request.cookies and request.cookies.get('perso') == "1":
-                return render_template('index.html', perso=True)
+            if request.method == 'GET':
+                timer = request.args.get('timer')
+                if timer=="terminato":
+                    self.db_manager.update_user_timer(request.cookies.get('id'), -1)
+                    self.db_manager.set_user_life(request.cookies.get('id'), 0)
+                    
+                    response = make_response(render_template('index.html', perso=True))
+                    response.set_cookie('perso', str("1"))  # Imposta il cookie 'id' con il valore dell'id
+                    return response
+                
+            if ('perso' in request.cookies and request.cookies.get('perso') == "1") or self.db_manager.getVite(request.cookies.get('id')) == 0:
+                response = make_response(render_template('index.html', perso=True))
+                response.set_cookie('perso', str("1"))  # Imposta il cookie 'id' con il valore dell'id
+                return response
 
             
             food = FoodAPI()
@@ -38,7 +53,11 @@ class PageManager:
             
             self.cibo_vincente = actual_image
             user = self.db_manager.get_user(request.cookies.get('id'))
-            return render_template('game.html', photo=actual_image, categorie=categories, user = user)
+            if user.timer in [0,-1]:
+                time_attuale = int(time.time())
+                self.db_manager.update_user_timer(user.id, time_attuale)
+                user.timer = time_attuale
+            return render_template('game.html', photo=actual_image, categorie=categories, user = user,secondi_totali=self.secondi_totali_timer)
 
 
         @self.app.route('/check_vittoria', methods=['GET', 'POST'])
@@ -52,7 +71,7 @@ class PageManager:
                     self.db_manager.update_user_score(request.cookies.get('id'),-25)
                     perso = self.db_manager.diminuisci_user_life(request.cookies.get('id'),-1)
                     if perso:
-                        response = make_response(render_template('index.html'), perso=True)
+                        response = make_response(render_template('index.html', perso=True))
                         response.set_cookie('perso', str("1"))  # Imposta il cookie 'id' con il valore dell'id
                         return response
                     return render_template('sconfitta.html',photo=self.cibo_vincente)

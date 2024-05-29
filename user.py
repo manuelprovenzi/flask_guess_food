@@ -1,5 +1,5 @@
 class User:
-    def __init__(self, id, name, username, password, email, punteggio, vite):
+    def __init__(self, id, name, username, password, email, punteggio, vite,timer):
         self.id = id
         self.name = name
         self.username = username
@@ -7,3 +7,4 @@ class User:
         self.email = email
         self.punteggio = punteggio
         self.vite = vite
+        self.timer = timer
