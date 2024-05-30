@@ -33,12 +33,12 @@ class PageManager:
                     self.db_manager.set_user_life(request.cookies.get('id'), 0)
                     
                     response = make_response(render_template('index.html', perso=True))
-                    response.set_cookie('perso', str("1"))  # Imposta il cookie 'id' con il valore dell'id
+                    response.set_cookie('perso', str("1"))
                     return response
                 
             if ('perso' in request.cookies and request.cookies.get('perso') == "1") or self.db_manager.getVite(request.cookies.get('id')) == 0:
                 response = make_response(render_template('index.html', perso=True))
-                response.set_cookie('perso', str("1"))  # Imposta il cookie 'id' con il valore dell'id
+                response.set_cookie('perso', str("1"))
                 return response
 
             
@@ -72,7 +72,7 @@ class PageManager:
                     perso = self.db_manager.diminuisci_user_life(request.cookies.get('id'),-1)
                     if perso:
                         response = make_response(render_template('index.html', perso=True))
-                        response.set_cookie('perso', str("1"))  # Imposta il cookie 'id' con il valore dell'id
+                        response.set_cookie('perso', str("1"))
                         return response
                     return render_template('sconfitta.html',photo=self.cibo_vincente)
             
